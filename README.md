@@ -27,6 +27,15 @@ An advanced saver for more complex needs.
 - **Multi-Mode**: Switch easily between saving individual images or compiled videos.
 - **Output Hook**: Outputs a `completed` (Boolean) signal.
 
+### 4. Logic Gate (Trigger)
+- **Input**: Takes a `completed` signal from a Saver node.
+- **Output**: Splits the signal into a `trigger` (for the Auto Queuer) and a `count_input`.
+
+### 5. Auto Queuer (Recursive)
+- **Use with Caution**: This node automatically triggers the **Queue Prompt** button again when executed.
+- **Recursive Loop**: Creates an infinite loop of generation until the Iterator stops it (via End of File error).
+- **Setup**: Connect `trigger` from Logic Gate -> `trigger` on Auto Queuer.
+
 ## Installation
 
 1.  Clone this repository into your `ComfyUI/custom_nodes/` directory:
