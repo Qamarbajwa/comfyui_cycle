@@ -11,6 +11,7 @@ Reads data row-by-row from a `.csv` or `.xlsx` file.
 - **Dynamic Prompts**: Outputs up to 4 text columns for use in CLIP Text Encode.
 - **File Management**: Outputs a `filename_prefix` and `directory` for each row.
 - **Auto-Stop**: Automatically stops the ComfyUI queue when the end of the file is reached.
+- **Header Skip**: Automatically skips the first row (Header). Data starts from Row 2.
 - **Smart Resume**: Optional `skip_existing` mode checks if the output file already exists and skips that row. Perfect for resuming crashed batches.
 
 ### 2. Custom Image Saver

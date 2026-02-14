@@ -96,6 +96,26 @@ class ExcelIteratorNode:
         else:
              raise Exception("Unsupported file type")
 
+        # FILTER EMPTY ROWS FIRST
+        # Remove completely empty rows or rows with only empty strings
+        cleaned_data = []
+        for row in data:
+            if not row: continue
+            # Check if likely empty (all None or "")
+            is_empty = True
+            for cell in row:
+                if cell is not None and str(cell).strip() != "":
+                    is_empty = False
+                    break
+            if not is_empty:
+                cleaned_data.append(row)
+        
+        data = cleaned_data
+        
+        # SKIP HEADER (Start from Row 2)
+        if len(data) > 0:
+            data = data[1:]
+
         total_rows = len(data)
 
         # Smart Resume Logic
