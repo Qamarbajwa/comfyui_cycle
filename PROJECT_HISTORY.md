@@ -93,6 +93,7 @@ To create a robust system for driving ComfyUI workflows using external data (CSV
 
 ### Phase 6: Project Management
 - [x] Create native PROJECT_HISTORY.md file
+- [x] STOP auto-push to Github (User Request)
 
 ## 4. File Structure
 ```
