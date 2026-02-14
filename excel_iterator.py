@@ -7,12 +7,24 @@ class ExcelIteratorNode:
 
     @classmethod
     def INPUT_TYPES(s):
+        input_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))), "input")
+        if not os.path.exists(input_dir):
+            files = ["data.csv"] # Fallback
+        else:
+            files = [f for f in os.listdir(input_dir) if f.endswith(".csv") or f.endswith(".xlsx") or f.endswith(".xls")]
+        
+        if not files:
+            files = ["No supported files in input folder"]
+
         return {
             "required": {
-                "file_path": ("STRING", {"default": "data.csv"}),
+                "csv_file": (sorted(files), ),
                 "index": ("INT", {"default": 0, "min": 0, "max": 999999}),
                 "skip_existing": ("BOOLEAN", {"default": True}),
             },
+            "optional": {
+                "manual_path": ("STRING", {"default": ""}), 
+            }
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING", "STRING", "STRING", "STRING")
@@ -57,9 +69,21 @@ class ExcelIteratorNode:
                 return True
         return False
 
-    def do_work(self, file_path, index, skip_existing):
+    def do_work(self, csv_file, index, skip_existing, manual_path=""):
+        # Resolve path
+        if manual_path and manual_path.strip():
+            file_path = manual_path
+        else:
+            # Use 'input' folder
+            base_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))), "input")
+            file_path = os.path.join(base_dir, csv_file)
+        
         if not os.path.exists(file_path):
-             return ("File not found", "", "", "", "", "", "")
+             # Try absolute path just in case manual_path was relative or weird
+             if os.path.exists(manual_path): # Check if manual path works as is (e.g. absolute)
+                 file_path = manual_path
+             else:
+                 return ("File not found", "", "", "", "", "", "")
 
         data = []
         if file_path.endswith(".csv"):

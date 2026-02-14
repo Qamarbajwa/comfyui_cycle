@@ -61,7 +61,10 @@ Create a `data.csv` with the following columns:
 7.  **Text 4**
 
 ### Step 2: The Workflow
-1.  Add **"Excel/CSV Iterator"**. Load your CSV.
+1.  **Prepare Data**: Put your `.csv` or `.xlsx` file in the **`ComfyUI/input`** folder.
+2.  Add **"Excel/CSV Iterator"**.
+    - **csv_file**: Select your file from the dropdown list.
+    - **manual_path** (Optional): Use this if your file is elsewhere (e.g. `D:/Prompts/data.csv`).
 3.  **Connect Index (IMPORTANT)**:
     *   Right-click `index` -> *Convert to Input*.
     *   Add a **Primitive** node and connect it to `index`.
