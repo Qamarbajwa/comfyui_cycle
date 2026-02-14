@@ -11,6 +11,7 @@ It reads row by row, providing dynamic prompts, filenames, and directory paths f
 - **Dynamic Filenames**: Uses a specific column for filenames and directories.
 - **Multiple Text Outputs**: Supports up to 4 separate text columns for prompted fields.
 - **Custom Image Saver**: Dedicated node to save images with exact filenames and paths from the iterator.
+- **Media File Saver**: Advanced saver for Images and Videos (mp4/gif/webp) with auto-incrementing counters.
 
 ## Installation
 
@@ -64,4 +65,9 @@ id,filename,directory,positive,style,negative,extra
     *   Connect `images` from your VAE Decode.
     *   Connect `directory` from the Iterator to `output_path`.
     *   Connect `filename_prefix` from the Iterator to `filename_prefix`.
-6.  **Run**: Set your **Batch Count** (Queue Prompt -> Batch Count) to the number of rows (or higher). The node will error and stop automatically when finished.
+6.  **Media Saver (Advance)**:
+    *   Alternative to Image Saver. Supports `save_video` mode.
+    *   Connect `images`, `output_path`, `filename_prefix`.
+    *   Select `mode` (image/video) and `extension` (png, jpg, mp4, etc).
+    *   It will automatically number files: `prefix_0001.mp4`, `prefix_0002.mp4` etc.
+7.  **Run**: Set your **Batch Count** (Queue Prompt -> Batch Count) to the number of rows (or higher). The node will error and stop automatically when finished.
