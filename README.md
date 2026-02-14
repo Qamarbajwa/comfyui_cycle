@@ -18,12 +18,14 @@ A streamlined image saver that works perfectly with the Iterator.
 - **Exact Filenames**: Saves images using the exact filename provided by the Iterator.
 - **Custom Paths**: Saves to any directory specified by the Iterator.
 - **Format Control**: Supports PNG, JPG, JPEG, WEBP.
+- **Output Hook**: Outputs a `completed` (Boolean) signal when saving is done. Useful for custom logic or sequential triggering.
 
 ### 3. Media File Saver (Image/Video)
 An advanced saver for more complex needs.
 - **Video Support**: Combines a batch of images into a single video file (`.mp4`, `.webm`, `.gif`).
 - **Auto-Counter**: Automatically finds the next available file number (e.g. `file_0001.mp4` -> `file_0002.mp4`) to prevent overwriting.
 - **Multi-Mode**: Switch easily between saving individual images or compiled videos.
+- **Output Hook**: Outputs a `completed` (Boolean) signal.
 
 ## Installation
 

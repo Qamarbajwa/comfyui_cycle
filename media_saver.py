@@ -22,7 +22,8 @@ class MediaSaverNode:
             },
         }
 
-    RETURN_TYPES = ()
+    RETURN_TYPES = ("BOOLEAN", )
+    RETURN_NAMES = ("completed", )
     FUNCTION = "save_media"
     OUTPUT_NODE = True
     CATEGORY = "utils"
@@ -111,4 +112,4 @@ class MediaSaverNode:
             except Exception as e:
                 raise Exception(f"Error saving video: {e}. Ensure ffmpeg is installed for mp4/webm.")
 
-        return { "ui": { "images": results } }
+        return { "ui": { "images": results }, "result": (True,) }

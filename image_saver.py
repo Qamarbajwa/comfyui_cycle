@@ -18,7 +18,8 @@ class ImageSaverNode:
             },
         }
 
-    RETURN_TYPES = ()
+    RETURN_TYPES = ("BOOLEAN", )
+    RETURN_NAMES = ("completed", )
     FUNCTION = "save_images"
     OUTPUT_NODE = True
     CATEGORY = "utils"
@@ -58,4 +59,4 @@ class ImageSaverNode:
                 "type": "output"
             })
             
-        return { "ui": { "images": results } }
+        return { "ui": { "images": results }, "result": (True,) }
