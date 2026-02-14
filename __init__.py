@@ -5,5 +5,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ExcelIteratorNode": "Qamar mode for modals"
+    "ExcelIteratorNode": "Excel/CSV Iterator"
 }

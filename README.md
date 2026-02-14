@@ -1,4 +1,4 @@
-# Qamar mode for modals (ComfyUI Excel/CSV Iterator)
+# ComfyUI Excel/CSV Iterator
 
 A custom node for [ComfyUI](https://github.com/comfyanonymous/ComfyUI) that allows you to drive your workflow using data from CSV or Excel files. 
 
@@ -47,7 +47,7 @@ id,filename,directory,positive,style,negative,extra
 
 ## Usage
 
-1.  **Add Node**: Search for "Qamar mode for modals".
+1.  **Add Node**: Search for "Excel/CSV Iterator".
 2.  **Select File**: Enter the absolute or relative path to your `.csv` or `.xlsx` file.
 3.  **Connect Index (IMPORTANT)**:
     *   Right-click `index` -> *Convert to Input*.
