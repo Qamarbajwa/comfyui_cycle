@@ -7,11 +7,19 @@ class ExcelIteratorNode:
 
     @classmethod
     def INPUT_TYPES(s):
-        input_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))), "input")
+        input_dir = "input" # Fallback relative
+        try:
+            import folder_paths
+            input_dir = folder_paths.get_input_directory()
+        except ImportError:
+            # Fallback path logic
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+            input_dir = os.path.join(base_dir, "input")
+
         if not os.path.exists(input_dir):
-            files = ["data.csv"] # Fallback
-        else:
-            files = [f for f in os.listdir(input_dir) if f.endswith(".csv") or f.endswith(".xlsx") or f.endswith(".xls")]
+             os.makedirs(input_dir, exist_ok=True)
+
+        files = [f for f in os.listdir(input_dir) if f.endswith(".csv") or f.endswith(".xlsx") or f.endswith(".xls")]
         
         if not files:
             files = ["No supported files in input folder"]
@@ -75,7 +83,12 @@ class ExcelIteratorNode:
             file_path = manual_path
         else:
             # Use 'input' folder
-            base_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))), "input")
+            try:
+                import folder_paths
+                base_dir = folder_paths.get_input_directory()
+            except ImportError:
+                base_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))), "input")
+            
             file_path = os.path.join(base_dir, csv_file)
         
         if not os.path.exists(file_path):
