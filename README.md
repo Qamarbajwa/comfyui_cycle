@@ -11,6 +11,7 @@ Reads data row-by-row from a `.csv` or `.xlsx` file.
 - **Dynamic Prompts**: Outputs up to 4 text columns for use in CLIP Text Encode.
 - **File Management**: Outputs a `filename_prefix` and `directory` for each row.
 - **Auto-Stop**: Automatically stops the ComfyUI queue when the end of the file is reached.
+- **Smart Resume**: Optional `skip_existing` mode checks if the output file already exists and skips that row. Perfect for resuming crashed batches.
 
 ### 2. Custom Image Saver
 A streamlined image saver that works perfectly with the Iterator.
@@ -50,8 +51,11 @@ Create a `data.csv` with the following columns:
 
 ### Step 2: The Workflow
 1.  Add **"Excel/CSV Iterator"**. Load your CSV.
-2.  **Crucial**: Connect a **Primitive** node to the `index` input. Set the Primitive to **Increment** on execution.
-3.  Connect `column_1` etc. to your prompt nodes.
+3.  **Connect Index (IMPORTANT)**:
+    *   Right-click `index` -> *Convert to Input*.
+    *   Add a **Primitive** node and connect it to `index`.
+    *   **Right-click the Primitive node** (or use the panel) and set **Control_after_generate** to **"Increment"**.
+    *   **Skip Existing**: Set `skip_existing` to **True** (default). This checks your `directory` for the `filename` and skips the row if the file is already there.
 4.  **Saving**:
     - **For Images**: Connect `directory` and `filename_prefix` to the **Custom Image Saver**.
     - **For Video**: Connect them to the **Media File Saver**, select `save_video` mode, and choose `.mp4`.
