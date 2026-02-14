@@ -10,6 +10,7 @@ It reads row by row, providing dynamic prompts, filenames, and directory paths f
 - **CSV & Excel Support**: Native CSV support. Excel (`.xlsx`) support via `pandas` and `openpyxl`.
 - **Dynamic Filenames**: Uses a specific column for filenames and directories.
 - **Multiple Text Outputs**: Supports up to 4 separate text columns for prompted fields.
+- **Custom Image Saver**: Dedicated node to save images with exact filenames and paths from the iterator.
 
 ## Installation
 
@@ -58,4 +59,9 @@ id,filename,directory,positive,style,negative,extra
     *   `filename_prefix` -> Connect to Save Image node.
     *   `full_path` -> Connect to Save Image node (combines directory/filename).
     *   `column_1` to `column_4` -> Connect to your CLIP Text Encode nodes.
-5.  **Run**: Set your **Batch Count** (Queue Prompt -> Batch Count) to the number of rows (or higher). The node will error and stop automatically when finished.
+5.  **Save Images**:
+    *   Add the **"Custom Image Saver"** node.
+    *   Connect `images` from your VAE Decode.
+    *   Connect `directory` from the Iterator to `output_path`.
+    *   Connect `filename_prefix` from the Iterator to `filename_prefix`.
+6.  **Run**: Set your **Batch Count** (Queue Prompt -> Batch Count) to the number of rows (or higher). The node will error and stop automatically when finished.
