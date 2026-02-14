@@ -16,7 +16,7 @@ It reads row by row, providing dynamic prompts, filenames, and directory paths f
 1.  Clone this repository into your `ComfyUI/custom_nodes/` directory:
     ```bash
     cd ComfyUI/custom_nodes
-    git clone https://github.com/yourusername/ComfyUI-Excel-Iterator.git
+    git clone https://github.com/Qamarbajwa/comfyui_cycle.git
     ```
 2.  Install dependencies (only needed for Excel .xlsx support):
     ```bash
