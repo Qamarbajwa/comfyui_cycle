@@ -1,4 +1,8 @@
 class TriggerLogic:
+    """
+    A simple pass-through node that acts as a Logic Gate.
+    Useful for forcing execution order or creating 'Any' triggers.
+    """
     def __init__(self):
         pass
 
@@ -13,7 +17,7 @@ class TriggerLogic:
     RETURN_TYPES = ("BOOLEAN", "INT")
     RETURN_NAMES = ("trigger", "count_input")
     FUNCTION = "process"
-    CATEGORY = "utils"
+    CATEGORY = "automation 101"
 
     def process(self, completed):
         # Pass through the signal

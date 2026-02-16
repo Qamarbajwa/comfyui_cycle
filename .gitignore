@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+__pycache__/
 
 # Packages #
 ############
@@ -25,6 +26,7 @@
 *.log
 *.sql
 *.sqlite
+upload_log.csv
 
 # OS generated files #
 ######################
@@ -35,3 +37,10 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Security & Temp
+#################
+credentials.json
+token.json
+client_secret.json
+temp_drive_upload/

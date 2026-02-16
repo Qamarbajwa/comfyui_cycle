@@ -4,6 +4,10 @@ import execution
 import server
 
 class AutoQueuer:
+    """
+    Recursively queues the current workflow when triggered.
+    WARNING: Can cause infinite loops if not controlled by a logic gate or specific condition.
+    """
     def __init__(self):
         pass
 
@@ -11,7 +15,7 @@ class AutoQueuer:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "trigger": ("BOOLEAN", {"default": False}),
+                "trigger": ("*", {}), # Allow any input (e.g., Image, Latent, etc.)
             },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "unique_id": "UNIQUE_ID"},
         }
@@ -19,32 +23,29 @@ class AutoQueuer:
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("status",)
     FUNCTION = "queue_run"
-    CATEGORY = "utils"
+    CATEGORY = "automation 101"
     OUTPUT_NODE = True
 
     def queue_run(self, trigger, prompt=None, extra_pnginfo=None, unique_id=None):
-        if not trigger:
-            return ("Skipped",)
+        # Even if trigger is None (connection removed), we might technically run if user force runs?
+        # But usually we only want to recurse if there is a signal.
+        # However, checking 'if trigger' on a Tensor is dangerous.
+        # We just assume if the node executed, the trigger signal propagated.
+        # But we can add a mode to disable it.
+        # For now, let's just proceed.
 
         # Logic: Re-queue the exact same workflow.
-        # ComfyUI's 'prompt' input contains the executing workflow (api format).
-        # We just post it back to /prompt.
         
         try:
-            # The 'prompt' object contains the node inputs.
-            # We need to ensure we don't create an infinite loop immediately in the SAME execution tick.
-            # This node runs at the END (Output Node).
-            # So the queue happens, ComfyUI handles it as a NEW job.
+            # Attempt to find the port dynamically
+            port = 8188
+            if hasattr(server, 'args') and hasattr(server.args, 'port'):
+                port = server.args.port
+            elif hasattr(server, 'PromptServer') and hasattr(server.PromptServer.instance, 'port'):
+                port = server.PromptServer.instance.port
             
-            prompt_id = "requeue_" + str(unique_id)
-            
-            # Prepare payload
-            # We use localhost:8188 by default. 
-            # Note: This might fail if user changed port. 
-            # But getting port programmatically is hard without checking args.
-            
-            url = "http://127.0.0.1:8188/prompt"
-            client_id = "0" # Default client ID? Or extract?
+            url = f"http://127.0.0.1:{port}/prompt"
+            client_id = "0" 
             
             # We assume standard API format
             payload = {
@@ -60,10 +61,11 @@ class AutoQueuer:
             
             # Send request
             with urllib.request.urlopen(req) as response:
-                response_data = response.read()
+                response.read() # Consume
                 
+            print(f"[AutoQueuer] Successfully queued new run on port {port}.")
             return ("Queued New Run",)
             
         except Exception as e:
-            print(f"AutoQueuer Error: {e}")
+            print(f"\033[91m[AutoQueuer] Error: {e}\033[0m")
             return (f"Error: {e}",)
